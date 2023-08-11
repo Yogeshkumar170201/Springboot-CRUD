@@ -1,15 +1,21 @@
 package com.ykspring.SpringBootPractice.service;
 
+import com.ykspring.SpringBootPractice.controller.DepartmentController;
 import com.ykspring.SpringBootPractice.entity.Department;
+import com.ykspring.SpringBootPractice.error.DepartmentNotFoundException;
 import com.ykspring.SpringBootPractice.repository.DepartmentRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class DepartmentServiceImpl implements DepartmentService{
+
 
     @Autowired
     private DepartmentRepository departmentRepository;
@@ -24,8 +30,12 @@ public class DepartmentServiceImpl implements DepartmentService{
     }
 
     @Override
-    public Department getDepartmentById(Long departmentId) {
-        return departmentRepository.findById(departmentId).get();
+    public Department getDepartmentById(Long departmentId) throws DepartmentNotFoundException {
+        Optional<Department> department = departmentRepository.findById(departmentId);
+        if(department.isEmpty()){
+            throw new DepartmentNotFoundException("Department Not Found");
+        }
+        return department.get();
     }
 
     @Override

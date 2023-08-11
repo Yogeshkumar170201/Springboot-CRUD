@@ -1,6 +1,7 @@
 package com.ykspring.SpringBootPractice.controller;
 
 import com.ykspring.SpringBootPractice.entity.Department;
+import com.ykspring.SpringBootPractice.error.DepartmentNotFoundException;
 import com.ykspring.SpringBootPractice.service.DepartmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/departments/{id}")
-    public Department getDepartmentById( @PathVariable("id") Long departmentId){
+    public Department getDepartmentById( @PathVariable("id") Long departmentId) throws DepartmentNotFoundException {
         LOGGER.info("Inside getDepartmentById of DepartmentController");
         return departmentService.getDepartmentById(departmentId);
     }
